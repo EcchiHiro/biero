@@ -1,0 +1,49 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/paper-styles/typography.html">
+
+<!-- shared styles for all elements and index.html -->
+<dom-module id="shared-styles">
+    <template>
+        <style>
+           
+            
+            :root {
+                --primary-text-color: #212121;
+                --primary-background-color: #ffffff;
+                --secondary-text-color: #737373;
+                --disabled-text-color: #9b9b9b;
+                --divider-color: #dbdbdb;
+                --primary-color: #3f51b5;
+                --light-primary-color: #c5cae9;
+                --dark-primary-color: #303f9f;
+                --accent-color: #ff4081;
+                --light-accent-color: #ff80ab;
+                --dark-accent-color: #f50057;
+                /* Components */
+                /* paper-drawer-panel */
+                --drawer-menu-color: #ffffff;
+                --drawer-border-color: 1px solid #ccc;
+                --drawer-toolbar-border-color: 1px solid rgba(0, 0, 0, 0.22);
+                /* paper-menu */
+                --paper-menu-background-color: #fff;
+                --menu-link-color: #111111;
+            }
+            /* General styles */
+            
+            body {
+                @apply(--layout-fullbleed);
+                @apply(--layout-vertical);
+            }
+            
+            .space {
+                @apply(--layout-flex);
+            }
+            
+            #toast .toast-hide-button {
+                color: #eeff41;
+                margin: 10px;
+            }
+            
+        </style>
+    </template>
+</dom-module>

@@ -1,0 +1,46 @@
+
+<!--
+<select ng-model="orderProp">
+  <option value="nom">nom</option>
+  <option value="-nom">nom inverse</option>
+</select>
+-->
+
+<div class="contenu">
+    <section class="bieres">
+            <md-content class="md-padding"  layout-xs="column" layout-xl="row" layout="row" >
+                 <md-card ng-repeat="biere in bieres | orderBy:orderProp | filter:rechercheBiere" class="biere">
+                        <img ng-src="{{biere.image}}" class="md-card-image" alt="image biere">
+                        <md-card-title>
+                          <md-card-title-text>
+                            <span class="md-headline">{{biere.nom}}</span>
+                            <p class="informationBiere">{{biere.brasserie}}</p>
+                            <p class="informationBiere">Moyenne : {{biere.moyenne}}</p>
+                            <p class="informationBiere">Date d'ajout : {{biere.date_ajout}}</p>
+                            <p class="informationBiere">Date de modification :{{biere.date_modif}}</p>
+                          </md-card-title-text>
+                        </md-card-title>
+                        <md-card-content>         
+                            <p>{{biere.description}}</p>
+                        </md-card-content>
+                        <md-card-actions layout="column">
+                          <md-button class="md-primary" ng-href="#/{{biere.id_biere}}">Modifier</md-button>
+                            <md-button class="md-warn" ng-click="dialogueConfirme(event, biere.id_biere)" >
+                              Effacer
+                            </md-button>
+                        </md-card-actions>
+                  </md-card>
+              </md-content>
+    </section>
+
+    <md-button class="md-fab md-warn" aria-label="add" ng-href="#/ajouter">
+            <md-tooltip  md-direction="left">
+              Ajouter une bière
+            </md-tooltip>
+            <md-icon md-font-library="material-icons" >add</md-icon>
+    </md-button>
+
+<div class="afficheToast"></div>
+
+    <pre>{{biere | json}}</pre>
+</div>

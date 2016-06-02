@@ -1,0 +1,31 @@
+@import 'variables';
+
+
+body
+{
+    margin-left: 0px;
+	margin-right: 0px;
+	margin-top: 0px;
+	background-color: $background;
+	font-family: $font-stack;
+	
+	&.scroll
+	{
+		padding-top: 136px!important;
+	}
+}
+
+
+::-webkit-scrollbar { 
+    display: none; 
+}
+
+
+h1 {
+    
+    font-family: $font-biere;
+    margin: 0 auto;
+    margin-top:10px;
+    margin-bottom:10px;
+    
+    }

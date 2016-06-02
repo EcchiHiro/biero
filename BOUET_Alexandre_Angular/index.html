@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="fr" ng-app="BieroAdmin">
+
+<head>
+    <meta charset="utf-8">
+    <title>Biero : Administration</title>
+    <link rel="stylesheet" href="css/app.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/angular-route/angular-route.js"></script>
+        <script src="bower_components/angular-animate/angular-animate.js"></script> 
+        <script src="bower_components/angular-messages/angular-messages.js"></script>
+        <script src="bower_components/angular-aria/angular-aria.js"></script>
+        <script src="bower_components/angular-material/angular-material.js"></script>
+    
+      <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0-rc2/angular-material.min.css">
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/angular-material-icons/0.7.0/angular-material-icons.min.js"></script> 
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+
+    
+    <script src="js/app.js"></script>
+    <script src="js/controlleurs.js"></script>
+    
+</head>
+      <md-toolbar ng-show="!showSearch">
+        <div class="md-toolbar-tools">
+          <md-button ng-click="toggleSidenav('left')" hide-gt-md aria-label="Menu">
+            <ng-md-icon icon="menu"></ng-md-icon>
+          </md-button>
+          <h3>
+            Biero - Admin
+          </h3>
+          <span flex></span>
+          <md-button aria-label="Search" ng-click="showSearch = !showSearch">
+            <ng-md-icon icon="search"></ng-md-icon>
+          </md-button>
+        </div>
+      </md-toolbar>
+      <md-toolbar class="md-hue-1" ng-show="showSearch">
+        <div class="md-toolbar-tools">
+          <md-button ng-click="showSearch = !showSearch" aria-label="Back">
+            <ng-md-icon icon="arrow_back"></ng-md-icon>
+          </md-button>
+          <h3 flex="10">
+            Retour
+          </h3>
+          <md-input-container md-theme="input" flex>
+            <label>&nbsp;</label>
+            <input ng-model="rechercheBiere" placeholder="Rechercher des bières">
+          </md-input-container>
+          <md-button aria-label="Search" ng-click="showSearch = !showSearch">
+            <ng-md-icon icon="search"></ng-md-icon>
+          </md-button>
+        </div>       
+      </md-toolbar>
+
+<body>
+    <main ng-view></main> 
+</body>
+
+
+</html>

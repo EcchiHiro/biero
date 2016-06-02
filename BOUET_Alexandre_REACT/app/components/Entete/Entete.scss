@@ -1,0 +1,118 @@
+@import '../variables';
+
+header{
+    
+    /*position: fixed;*/
+    /*top:0px;*/
+    height: 3 * $unite;
+    width: 100%;
+    background-color: $couleur-primaire;
+    margin: 0px;
+  	z-index: 999;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    box-shadow: none;
+    align-items:center;
+	
+
+
+    .menu
+    {
+        
+		color:#FFFFFF;
+		
+        ul{
+            list-style-type: none;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content:flex-start;
+            
+            li
+            {
+                margin-left: 15px;
+                margin-right: 15px;
+                
+            }
+        }
+		a {
+			text-decoration: none;
+			color:#FFFFFF;
+			display: block;
+			padding:16px;
+			border: 1px transparent solid;
+			&:hover
+			{
+				border: 1px #ffffff solid;
+			}
+		}
+    }
+    
+    .scroll &
+    {
+        position: fixed;
+		top:0px;
+		height: $unite!important;
+        /*transition: height 300ms;*/
+        box-shadow: 0px 5px 6px -3px rgba(0, 0, 0, 0.4);
+		margin: 0px;
+    }
+    .active
+    {
+		color:#FFFFFF;
+        font-weight: bold;
+    }
+}
+
+
+@media (min-width: 768px) 
+{
+
+    
+    .logo
+    {
+        width:10%;
+        margin-left: 75px;
+        justify-content: flex-end;
+    }
+    
+    
+}
+
+@media  (min-width: 361px) and (max-width:768px)  {
+
+ .menu
+    {
+		
+        ul{
+
+            justify-content:flex-start;
+
+        }
+
+    }
+    
+    
+    
+    
+    .logo
+    {
+        width:20%;
+        margin-left: 60px;
+        justify-content: flex-end;
+    }
+    
+}
+    
+@media  (max-width: 360px)  {
+      
+    .logo
+    {
+        width:20%;
+        margin-left: 60px;
+        justify-content: flex-end;
+    }
+    
+}

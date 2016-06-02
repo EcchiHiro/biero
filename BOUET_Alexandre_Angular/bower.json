@@ -1,0 +1,23 @@
+{
+  "name": "Biero Admin",
+  "authors": [
+    "Jonathan Martel <jonathmartel@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.5",
+    "angular-route": "^1.5.5",
+    "angular-material": "^1.0.7"
+  }
+}

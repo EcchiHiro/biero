@@ -1,0 +1,380 @@
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../../bower_components/iron-image/iron-image.html">
+
+<link rel="import" href="../../bower_components/paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-input/paper-textarea.html">
+
+<link rel="import" href="../../bower_components/neon-animation/animations/scale-up-animation.html">
+<link rel="import" href="../../bower_components/neon-animation/animations/fade-out-animation.html">
+
+
+
+
+<link rel="import" href="../star-rating.html">
+
+
+<dom-module id="biero-biere">
+	<template>
+		<style>
+            
+			:host {
+			 --paper-fab-background: var(--paper-red-700);
+                width: 100%;
+                height: 100%;
+                @apply(--layout-vertical);
+			}
+            
+			.content
+            {
+                margin: 0 auto;  
+                margin-left:25%;
+                margin-top: 50px;
+            }
+            
+            paper-fab
+            {
+                position: fixed;
+                bottom: 50px;
+                right: 50px;
+            }
+            
+            paper-dialog
+            {
+               @apply(--layout-vertical);
+            }
+            
+            iron-list
+            {
+                 min-height: 300px;
+            }
+            
+            paper-icon-button.rate-icon 
+            {
+                --iron-icon-fill-color: white;
+                --iron-icon-stroke-color: var(--paper-grey-600);
+            }
+            
+            paper-toolbar {
+                      --paper-toolbar-background:green;
+            }
+            
+            
+            paper-card 
+            {
+                width:70%;
+                text-align: center;
+                --paper-card: margin-bottom:50px;
+                
+            }
+            
+            .titre 
+            {
+                font-style:italic;
+            }
+            
+            .commentaire 
+            {
+                margin: 5px;
+                padding: 21px;
+                background-color: #C9D1D8;
+            }
+            
+            
+            
+            #options 
+            {
+                display: none;
+            }
+            
+            #boutonCommentaire 
+            {
+                position: fixed;
+                bottom: 125px;
+                right: 50px;
+                
+            }
+            #boutonNote 
+            {
+                position: fixed;
+                bottom: 200px;
+                right: 50px;
+
+            }
+            
+            
+
+            #logoBiere
+            {   
+                width: 4%;
+
+            }  
+                
+
+  
+            
+            </style>
+            
+            <iron-ajax 
+            id="ajaxBiere"
+            url="http://127.0.0.1:8000/webservice/php/biere/[[idbiere]]"
+            on-response="reponseBiere"
+            last-response="{{biere}}"
+            debounce-duration="300"></iron-ajax>
+
+
+            <iron-ajax 
+            id="ajaxNote"
+            url="http://127.0.0.1:8000/webservice/php/biere/[[idbiere]]/note"
+            on-response="reponseNote"
+            last-response="{{note}}"
+            debounce-duration="300"></iron-ajax>
+
+            <iron-ajax 
+            id="ajaxCommentaire"
+            url="http://127.0.0.1:8000/webservice/php/biere/[[idbiere]]/commentaire"
+            on-response="reponseCommentaire"
+            last-response="{{commentaire}}"
+            debounce-duration="300"></iron-ajax>
+
+            <iron-ajax 
+            id="ajaxAjoutCommentaire"
+            url="http://127.0.0.1:8000/webservice/php/biere/[[idbiere]]/commentaire"
+            method="PUT"
+            headers='{"Authorization" : "Basic Ymllcm86Ymllcm8=", "Content-Type" : "application/json"}'
+            on-response="reponseAjoutCommentaire"
+            last-response="{{dataAjoutCommentaire}}"
+            debounce-duration="300"></iron-ajax>            
+            
+            <iron-ajax 
+            id="ajaxAjoutNote"
+            url="http://127.0.0.1:8000/webservice/php/biere/[[idbiere]]/note"
+            method="PUT"
+            headers='{"Authorization" : "Basic Ymllcm86Ymllcm8=", "Content-Type" : "application/json"}'
+            on-response="reponseAjoutNote"
+            last-response="{{dataAjoutNote}}"
+            debounce-duration="300"></iron-ajax>
+
+            <paper-header-panel>
+                <paper-toolbar>
+                    <iron-image alt="Logo biero" id="logoBiere" src="../../images/logoBiere.svg" ></iron-image>
+                    <span class="title">Biero : L'appli des bieres</span>
+                </paper-toolbar>
+                
+                <div class="content">
+                    
+                    <!--paper card qui construit l'affichage des informations de la biere-->
+                   
+                    <paper-card heading="Nom : [[biere.nom]]" image="../../images/[[biere.image]]">
+                          <div class="card-content">
+                             Brasserie : [[biere.brasserie]]</br>
+                             Note : [[note.note]] ([[note.nombre]])</br>
+                          </div>
+
+                        <div class="card-actions">
+                            <h3 id="sectionCommentaire" >Commentaires :</h3>
+                            <iron-list items="[[commentaire]]" as="item" scroll-target="document">
+                            <!-- liste des commentaires-->
+                                <template>
+                                    <div id="[[item.id_commentaire]]">
+                                        <p class="titre">Commentaire ajouté par l'utilisateur numéro : [[item.id_usager]]</p>
+                                        <p class="commentaire">[[item.commentaire]]</p>
+                                    </div>
+                                </template>
+                            </iron-list>
+                         </div>
+                    </paper-card>
+
+                </div>
+
+            </paper-header-panel>
+            
+            
+              <!--      Menu qui gere l'ajout de notes et de commentaires, 
+                        le menu apparait et disparait avec les events mouseover et mouse out     
+               -->  
+
+            <paper-fab icon="menu" on-mouseover="montrerOptions" on-mouseout="fermerOptions"></paper-fab>
+               <div id="options">
+                    <paper-fab id="boutonCommentaire" icon="feedback" on-tap="ajouterCommentaire"></paper-fab>
+                <paper-fab id="boutonNote" icon="star" on-tap="ajouterNote"></paper-fab>
+               </div>
+   
+            <!--      Paper dialog pour ajouter un commentaire      -->
+             
+            <paper-dialog id="dialogueCommentaire" entry-animation="scale-up-animation"
+                          exit-animation="fade-out-animation">
+              <h2>Ajouter un commentaire</h2>
+              <paper-input label="courriel" value="{{monemail}}" id="inputWithButton">
+              <iron-icon icon="mail" prefix></iron-icon>
+               </paper-input>
+            <div>Votre commentaire</div>
+                <paper-textarea value="{{moncommentaire}}" label="commentaire"></paper-textarea>
+            <div class="buttons">
+                <paper-button on-tap="soumettreCommentaire">Soumettre</paper-button>
+                <paper-button dialog-dismiss>Decline</paper-button>
+            </div>
+            </paper-dialog>
+                        
+             <!--      Paper dialog pour ajoute une note      -->
+                                    
+            <paper-dialog id="dialogueNote" entry-animation="scale-up-animation"
+                          exit-animation="fade-out-animation">
+              <h2>Ajouter une note</h2>
+              
+              <paper-input label="courriel" value="{{monemail}}" id="inputWithButton">
+              <iron-icon icon="mail" prefix></iron-icon>
+               </paper-input>
+               <div>Votre note</div>
+               
+                <!--               element star rating               -->
+               
+                <star-rating stars="10" rate="0" id="maNote"></star-rating>
+            <div class="buttons">
+                <paper-button on-tap="soumettreNote">Soumettre</paper-button>
+                <paper-button dialog-dismiss>Decline</paper-button>
+            </div>
+            </paper-dialog>
+        </template>
+
+	<script>
+		Polymer({
+			is: 'biero-biere',
+			properties: {
+				nombrebiere: Number,
+			},
+            reponseBiere : function(){
+                //console.log(this.biere);
+                console.log(this.biere.image);
+                
+                if(!this.biere.image) 
+                {   
+                    this.set("biere.image", "../../images/default.jpg"); 
+                }
+                
+            },
+            reponseNote : function(){
+                //console.log(this.note);
+                this.$.ajaxNote.generateRequest();  
+                
+            },
+            reponseCommentaire : function(){
+                //console.log(this.commentaire);
+                this.$.ajaxCommentaire.generateRequest()
+                document.querySelector('iron-list').fire('iron-resize');
+                
+            },
+            requeteAjax : function()
+            {
+                //console.log(app.params);
+                this.idbiere = app.params.id;
+                this.$.ajaxBiere.generateRequest();        
+                this.$.ajaxNote.generateRequest();        
+                this.$.ajaxCommentaire.generateRequest();        
+            },
+            
+            ajouterCommentaire : function(){
+                //console.log('ajouter');
+                this.$.dialogueCommentaire.open();
+                
+            },             
+            
+            ajouterNote : function(){
+                //console.log('ajouter');
+                this.$.dialogueNote.open();
+                
+            },            
+            
+            soumettreNote : function(){
+                
+                if((this.monemail == "" ) || (this.$.maNote.rate == ""))
+                {
+                     app.$.toast.text = 'Veuillez remplir tout les champs';
+                     app.$.toast.show();
+                }
+                else
+                {
+                    //console.log(this.$.maNote.rate);
+                    this.$.ajaxAjoutNote.body = JSON.stringify({"courriel":this.monemail, "note":this.$.maNote.rate});
+
+                    //console.log(this.$.ajaxAjoutNote.body);
+
+                    this.$.ajaxAjoutNote.generateRequest();
+
+                    this.$.dialogueNote.close();
+                    
+                    app.$.toast.text = 'Votre note à été ajoutée';
+                    app.$.toast.show();
+                    
+                }
+                
+                       
+            },
+            soumettreCommentaire :function()
+            {
+                
+                
+                if((this.monemail == "" ) || (this.moncommentaire == ""))
+                {
+                     app.$.toast.text = 'Veuillez remplir tout les champs';
+                     app.$.toast.show();
+                }
+                else 
+                {
+                    // Valider les données et préparer la requête ajax
+                    //console.log(this.moncommentaire);
+                    this.$.ajaxAjoutCommentaire.body = JSON.stringify({"courriel":this.monemail, "commentaire":this.moncommentaire});               
+                    //console.log(this.$.ajaxAjoutCommentaire.body);          
+
+                    this.$.ajaxAjoutCommentaire.generateRequest();
+
+                    this.$.dialogueCommentaire.close();
+                    
+                     app.$.toast.text = "Votre commentaire à été ajouté";
+                     app.$.toast.show();
+                }
+
+            },
+            
+            reponseAjoutCommentaire:function(evt)
+            {
+                console.log(evt);
+            },            
+            
+            reponseAjoutNote:function(evt)
+            {
+                console.log(evt);
+            },            
+            
+            montrerOptions:function()
+            {
+                    document.getElementById('options').style.display="block";
+                               
+            },            
+            
+            fermerOptions:function()
+            {
+                    // On crée un timer pour laisser le display de la division a block pendant 2 secondes            
+                    var timer = null;
+                    document.getElementById('options').onmouseout = function () 
+                    {
+                        timer = setTimeout(function () {
+                           document.getElementById('options').style.display="none";
+                        }, 2000);
+                    }
+
+                               
+            }
+           
+		});
+		
+	</script>
+
+</dom-module>
+

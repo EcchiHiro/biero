@@ -1,0 +1,133 @@
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../../bower_components/iron-flex-layout/iron-flex-layout.html">
+<link rel="import" href="../../bower_components/iron-list/iron-list.html">
+
+<link rel="import" href="../../bower_components/paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../../bower_components/paper-toolbar/paper-toolbar.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/iron-image/iron-image.html">
+
+
+
+
+<dom-module id="biero-accueil">
+	<template>
+		<style>
+            
+			:host {
+			 
+                width: 100%;
+                height: 100%;
+                @apply(--layout-vertical);
+			}
+            
+			.content
+            {
+               width: 50%; 
+               margin: 0 auto;
+                
+            }
+            
+
+            
+            paper-card 
+            {
+                  --paper-card: margin-bottom:50px;
+            }
+              
+            
+
+            #logoBiere
+            {   
+                width: 85px;
+
+            }  
+            
+            paper-toolbar {
+                  --paper-toolbar-background:green;
+        }
+            
+
+		</style>
+       
+        <iron-ajax 
+        auto
+        url="http://127.0.0.1:8000/webservice/php/biere/"
+        on-response="reponseBiere"
+        last-response="{{biere}}"
+        debounce-duration="300"></iron-ajax>
+        
+        <paper-header-panel>
+            <paper-toolbar>
+                <iron-image alt="Logo biero" id="logoBiere" src="../../images/logoBiere.svg"></iron-image>
+                <span class="title">Biero : L'appli des bieres</span>
+            </paper-toolbar>
+            <div class="content">
+                <h1>Liste des bières</h1>
+                
+                <!--liste des bière de la bdd-->
+                
+                <iron-list items="[[biere]]" as="item" >
+                    <template>
+                        <paper-card  heading="[[item.nom]]" image="../../images/[[item.image]]" >
+                          <div class="card-content">
+                           [[item.brasserie]]                              
+                          </div>
+                          <div class="card-actions">
+                            <paper-button id="[[item.id_biere]]" on-tap="clicBiere" >En savoir plus</paper-button>
+                          </div>
+                        </paper-card>
+                    </template>
+                </iron-list>
+            </div>
+        </paper-header-panel>
+
+	</template>
+
+	<script>
+		Polymer({
+            
+			is: 'biero-accueil',
+			properties: {
+				nombrebiere: Number,
+			},
+            reponseBiere : function(){
+                //console.log(this.biere);
+                document.querySelector('iron-list').fire('iron-resize');
+                
+                // On boucle dans le Array des bières 
+                // pour leur affecter une image par defaut si elle n'en n'ont pas 
+                
+                for (i = 0; i < this.biere.length; i++) 
+                {
+                      
+                    if(this.biere[i].image == "") 
+                    {   
+                        
+                        this.biere[i].image ="default.jpg";
+                      
+
+                        //console.log(this.biere[i].image);
+                        
+                    }
+                    
+    
+                }
+                   
+            },
+            clicBiere : function(evt){
+//                console.log(evt);
+//                console.log(evt.currentTarget.id);
+                page('/biere/'+evt.currentTarget.id);
+            },
+            
+            
+           
+		});
+		
+	</script>
+
+</dom-module>
+

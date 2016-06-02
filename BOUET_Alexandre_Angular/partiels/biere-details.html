@@ -1,0 +1,41 @@
+
+<section class="sectionBiere">
+   <form name="modifForm">
+    <md-card>
+        <h1>Modification d'une bière</h1>    
+        <md-input-container class="md-block" flex-gt-sm >
+            <label>Nom de la bière</label>
+            <input  required ng-model="biere.nom" name="name">
+            
+             <div ng-messages="modifForm.name.$error">
+              <div ng-message="required">Veuillez remplir ce champ</div>
+            </div>
+        </md-input-container>
+
+        <md-input-container class="md-block" flex-gt-sm >
+            <label>Brasserie</label>
+            <input required ng-model="biere.brasserie" name="brasserie" >
+            
+             <div ng-messages="modifForm.brasserie.$error">
+              <div ng-message="required">Veuillez remplir ce champ</div>
+            </div>
+        </md-input-container>
+
+        <md-input-container class="md-block" flex-gt-sm>
+            <label>Image de la bière</label>
+            <input ng-model="biere.image">         
+        </md-input-container>
+
+        <img id="previewImg" src="{{biere.image}}">
+
+        <md-button class="md-primary" ng-click="modifierBiere()" ng-disabled="modifForm.$invalid">Soumettre les changements</md-button>
+        <md-button class="md-warn" ng-click="dialogueConfirme(event)" >
+            Effacer
+        </md-button>
+    </md-card>
+    </form>
+</section>  
+
+
+<div class="afficheToast"></div>
+
